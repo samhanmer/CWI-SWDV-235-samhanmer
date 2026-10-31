@@ -18,9 +18,7 @@ public class TransactionsController implements CrudHandler {
     @Override
     public void getAll(Context ctx) {
         // Use ctx to render all transactions html
-        String view = this.renderTransactions();
-
-        ctx.html(view);
+        ctx.render("jte/transactionsPage.jte", Map.of("transactions", transactions));
     }
 
     @Override
