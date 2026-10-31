@@ -1,22 +1,23 @@
 package edu.cwi;
 
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 
 public class App 
 {
-    public static void main( String[] args ) {
-        Javalin.create(config -> {
-            config.jetty.port=7070;
-            config.jetty.host = "localhost";
-            config.staticFiles.add("/public", Location.CLASSPATH);
-            config.routes.get("/account", ctx -> {
-                ctx.redirect("/account.html");
-            });
-            config.routes.get("/logout", ctx -> {
-                ctx.redirect("/");
-            });
-        }).start();
+    public static void main( String[] args )
+    {
+        var app = Javalin.create(config -> {
+
+			config.routes.apiBuilder(() -> {
+				crud("transactions/{id}", new TransactionsController());
+			});
+
+            config.routes.get("/", ctx -> ctx.redirect("/transactions"));
+            
+        }).start(7070);
     }
 }
+
+
