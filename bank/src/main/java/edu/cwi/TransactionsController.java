@@ -11,15 +11,21 @@ public class TransactionsController implements CrudHandler {
     private final Map<String, String> transactions = new ConcurrentHashMap<>();
 
     public TransactionsController() {
-        this.transactions.put("1", "Transaction 1");
-        this.transactions.put("2", "Transaction 2");
+    }
 
-    }
-    @Override
+    @Override // Most of my updated code is from the examples listed in the week's material. 
     public void getAll(Context ctx) {
-        // Use ctx to render all transactions html
-        ctx.render("jte/transactionsPage.jte", Map.of("transactions", transactions));
-    }
+        UserAccount account = new UserAccount(
+            "Tom Day",
+            1337.00,
+            transactions
+        );
+
+    ctx.render("jte/accountPage.jte", Map.of(
+        "title", "User Account",
+        "account", account
+    ));
+}
 
     @Override
     public void getOne(Context ctx, String resourceId) {
