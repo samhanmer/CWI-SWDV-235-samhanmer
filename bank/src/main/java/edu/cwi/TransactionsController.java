@@ -14,18 +14,10 @@ public class TransactionsController implements CrudHandler {
     }
 
     @Override // Most of my updated code is from the examples listed in the week's material. 
-    public void getAll(Context ctx) {
-        UserAccount account = new UserAccount(
-            "Tom Day",
-            1337.00,
-            transactions
-        );
-
-    ctx.render("jte/accountPage.jte", Map.of(
-        "title", "User Account",
-        "account", account
-    ));
-}
+        public void getAll(Context ctx) {
+            String view = this.renderTransactions();
+            ctx.html(view);
+        }
 
     @Override
     public void getOne(Context ctx, String resourceId) {
