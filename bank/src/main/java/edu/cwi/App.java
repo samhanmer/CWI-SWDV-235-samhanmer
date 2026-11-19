@@ -16,23 +16,25 @@ public class App {
 
             config.fileRenderer(new JavalinJte());
 
-            config.routes.apiBuilder(() -> {
+        config.routes.apiBuilder(() -> {
 
-                crud("transactions/{id}", new TransactionsController());
+            crud("transactions/{id}", new TransactionsController());
 
-                path("/account", List.of(AppRole.CUSTOMER), () -> {
-                    get(AccountController::renderAccount);
-                });
+            crud("users/{id}", new UsersController());
 
-                path("/login", () -> {
-                    get(ctx -> ctx.render("jte/loginPage.jte"));
-                    post(AuthController::authenticate);
-                });
-
-                path("/logout", () -> {
-                    get(AuthController::logout);
-                });
+            path("/account", List.of(AppRole.CUSTOMER), () -> {
+                get(AccountController::renderAccount);
             });
+
+            path("/login", () -> {
+                get(ctx -> ctx.render("jte/loginPage.jte"));
+                post(AuthController::authenticate);
+            });
+
+            path("/logout", () -> {
+                get(AuthController::logout);
+            });
+        });
 
             config.routes.beforeMatched(ctx -> {
 

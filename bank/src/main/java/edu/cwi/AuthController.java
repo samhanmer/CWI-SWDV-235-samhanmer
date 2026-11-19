@@ -43,23 +43,26 @@ public class AuthController {
         return Optional.empty();
     }
 
-    public static void authenticate(Context ctx) {
+    public static void authenticate(Context ctx) { // Straight from the example.
+
+        UsersController usersController = new UsersController();
 
         String username = ctx.formParam("username");
         String password = ctx.formParam("password");
 
-        Pair credentials = new Pair(username, password);
-
-        UserAccount user = userMap.get(credentials);
+        User user = usersController.authenticateUser(ctx, username, password);
 
         if (user != null) {
-            ctx.cookieStore().set("user-id", user.id());
-            ctx.cookieStore().set("user-role", user.role());
+
+            ctx.cookieStore().set("user-id", user.getId());
+            ctx.cookieStore().set("user-role", user.getRole());
 
             ctx.redirect("/account");
         }
         else {
+
             ctx.cookieStore().clear();
+
             ctx.redirect("/unauthorized.html");
         }
     }
